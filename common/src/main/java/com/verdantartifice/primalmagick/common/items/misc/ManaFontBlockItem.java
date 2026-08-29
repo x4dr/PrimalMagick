@@ -1,8 +1,5 @@
 package com.verdantartifice.primalmagick.common.items.misc;
 
-import com.verdantartifice.primalmagick.client.renderers.itemstack.ManaFontISTER;
-import com.verdantartifice.primalmagick.common.items.IHasCustomRenderer;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -11,17 +8,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Supplier;
 
 /**
  * Definition of a block item for a mana font.
  * 
  * @author Daedalus4096
  */
-public abstract class ManaFontBlockItem extends BlockItem implements IHasCustomRenderer {
+public abstract class ManaFontBlockItem extends BlockItem {
     protected static final List<ManaFontBlockItem> FONTS = new ArrayList<>();
-
-    private BlockEntityWithoutLevelRenderer customRenderer;
 
     public ManaFontBlockItem(Block block, Item.Properties properties) {
         super(block, properties);
@@ -32,16 +26,4 @@ public abstract class ManaFontBlockItem extends BlockItem implements IHasCustomR
         return Collections.unmodifiableList(FONTS);
     }
 
-    @Override
-    public Supplier<BlockEntityWithoutLevelRenderer> getCustomRendererSupplier() {
-        if (this.customRenderer == null) {
-            this.customRenderer = this.getCustomRendererSupplierUncached().get();
-        }
-        return () -> this.customRenderer;
-    }
-
-    @Override
-    public Supplier<BlockEntityWithoutLevelRenderer> getCustomRendererSupplierUncached() {
-        return ManaFontISTER::new;
-    }
 }

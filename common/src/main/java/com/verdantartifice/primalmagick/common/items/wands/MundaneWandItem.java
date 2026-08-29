@@ -1,11 +1,9 @@
 package com.verdantartifice.primalmagick.common.items.wands;
 
-import com.verdantartifice.primalmagick.client.renderers.itemstack.MundaneWandISTER;
 import com.verdantartifice.primalmagick.common.capabilities.ManaStorage;
 import com.verdantartifice.primalmagick.common.components.DataComponentsPM;
 import com.verdantartifice.primalmagick.common.sources.Source;
 import com.verdantartifice.primalmagick.common.spells.SpellPackage;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -14,7 +12,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Supplier;
 
 /**
  * Item definition for a mundane wand.  Unlike modular wands, mundane wands cannot be inscribed with
@@ -24,8 +21,6 @@ import java.util.function.Supplier;
  */
 public abstract class MundaneWandItem extends AbstractWandItem {
     public static final int MAX_MANA = 2500;
-
-    private BlockEntityWithoutLevelRenderer customRenderer;
 
     public MundaneWandItem() {
         super(new Item.Properties().stacksTo(1).enchantable(1));
@@ -115,16 +110,4 @@ public abstract class MundaneWandItem extends AbstractWandItem {
         return false;
     }
 
-    @Override
-    public Supplier<BlockEntityWithoutLevelRenderer> getCustomRendererSupplier() {
-        if (this.customRenderer == null) {
-            this.customRenderer = this.getCustomRendererSupplierUncached().get();
-        }
-        return () -> this.customRenderer;
-    }
-
-    @Override
-    public Supplier<BlockEntityWithoutLevelRenderer> getCustomRendererSupplierUncached() {
-        return MundaneWandISTER::new;
-    }
 }

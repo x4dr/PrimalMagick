@@ -1,9 +1,7 @@
 package com.verdantartifice.primalmagick.common.items.tools;
 
-import com.verdantartifice.primalmagick.client.renderers.itemstack.ManaOrbISTER;
 import com.verdantartifice.primalmagick.common.capabilities.ManaStorage;
 import com.verdantartifice.primalmagick.common.components.DataComponentsPM;
-import com.verdantartifice.primalmagick.common.items.IHasCustomRenderer;
 import com.verdantartifice.primalmagick.common.misc.DeviceTier;
 import com.verdantartifice.primalmagick.common.misc.ITieredDevice;
 import com.verdantartifice.primalmagick.common.sources.Source;
@@ -11,7 +9,6 @@ import com.verdantartifice.primalmagick.common.sources.Sources;
 import com.verdantartifice.primalmagick.common.wands.IManaContainer;
 import com.verdantartifice.primalmagick.common.wands.WandGem;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -25,28 +22,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
-public abstract class ManaOrbItem extends Item implements IHasCustomRenderer, ITieredDevice, IManaContainer {
+public abstract class ManaOrbItem extends Item implements ITieredDevice, IManaContainer {
     private final DeviceTier tier;
-    private BlockEntityWithoutLevelRenderer customRenderer;
 
     public ManaOrbItem(DeviceTier tier, Item.Properties pProperties) {
         super(pProperties.component(DataComponents.EQUIPPABLE, Equippable.builder(EquipmentSlot.OFFHAND).setDamageOnHurt(false).build()));
         this.tier = tier;
-    }
-
-    @Override
-    public Supplier<BlockEntityWithoutLevelRenderer> getCustomRendererSupplier() {
-        if (this.customRenderer == null) {
-            this.customRenderer = this.getCustomRendererSupplierUncached().get();
-        }
-        return () -> this.customRenderer;
-    }
-
-    @Override
-    public Supplier<BlockEntityWithoutLevelRenderer> getCustomRendererSupplierUncached() {
-        return ManaOrbISTER::new;
     }
 
     @Override
