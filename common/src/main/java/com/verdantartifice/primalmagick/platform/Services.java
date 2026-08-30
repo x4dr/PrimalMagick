@@ -21,7 +21,6 @@ import com.verdantartifice.primalmagick.platform.services.IItemService;
 import com.verdantartifice.primalmagick.platform.services.IItemStackService;
 import com.verdantartifice.primalmagick.platform.services.ILevelService;
 import com.verdantartifice.primalmagick.platform.services.IMenuService;
-import com.verdantartifice.primalmagick.platform.services.IModelResourceLocationService;
 import com.verdantartifice.primalmagick.platform.services.IModelTemplateService;
 import com.verdantartifice.primalmagick.platform.services.INetworkService;
 import com.verdantartifice.primalmagick.platform.services.IPartEntityService;
@@ -109,7 +108,6 @@ public class Services {
     public static final IRecipeService RECIPES = load(IRecipeService.class);
     public static final INetworkService NETWORK = load(INetworkService.class);
     public static final ITestService TEST = load(ITestService.class);
-    public static final IModelResourceLocationService MODEL_RESOURCE_LOCATIONS = load(IModelResourceLocationService.class);
     public static final ITagService TAGS = load(ITagService.class);
     public static final IFluidService FLUIDS = load(IFluidService.class);
     public static final IFluidHandlerService FLUID_HANDLERS = load(IFluidHandlerService.class);

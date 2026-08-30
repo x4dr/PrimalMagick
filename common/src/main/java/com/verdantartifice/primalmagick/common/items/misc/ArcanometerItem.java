@@ -1,7 +1,5 @@
 package com.verdantartifice.primalmagick.common.items.misc;
 
-import com.verdantartifice.primalmagick.client.renderers.itemstack.ArcanometerISTER;
-import com.verdantartifice.primalmagick.common.items.IHasCustomRenderer;
 import com.verdantartifice.primalmagick.common.network.PacketHandler;
 import com.verdantartifice.primalmagick.common.network.packets.misc.ScanEntityPacket;
 import com.verdantartifice.primalmagick.common.network.packets.misc.ScanItemPacket;
@@ -11,7 +9,6 @@ import com.verdantartifice.primalmagick.common.sounds.SoundsPM;
 import com.verdantartifice.primalmagick.common.util.EntityUtils;
 import com.verdantartifice.primalmagick.common.util.RayTraceUtils;
 import com.verdantartifice.primalmagick.common.util.ResourceUtils;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundSource;
@@ -29,7 +26,6 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
 import javax.annotation.Nullable;
-import java.util.function.Supplier;
 
 /**
  * Item definition for an arcanometer.  An arcanometer is a PKE meter-like device that scans the 
@@ -37,10 +33,8 @@ import java.util.function.Supplier;
  *  
  * @author Daedalus4096
  */
-public abstract class ArcanometerItem extends Item implements IHasCustomRenderer {
+public abstract class ArcanometerItem extends Item {
     public static final Identifier SCAN_STATE_PROPERTY = ResourceUtils.loc("scan_state");
-
-    private BlockEntityWithoutLevelRenderer customRenderer;
 
     public ArcanometerItem() {
         super(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
@@ -92,16 +86,4 @@ public abstract class ArcanometerItem extends Item implements IHasCustomRenderer
         return super.use(worldIn, playerIn, handIn);
     }
 
-    @Override
-    public Supplier<BlockEntityWithoutLevelRenderer> getCustomRendererSupplier() {
-        if (this.customRenderer == null) {
-            this.customRenderer = this.getCustomRendererSupplierUncached().get();
-        }
-        return () -> this.customRenderer;
-    }
-
-    @Override
-    public Supplier<BlockEntityWithoutLevelRenderer> getCustomRendererSupplierUncached() {
-        return ArcanometerISTER::new;
-    }
 }

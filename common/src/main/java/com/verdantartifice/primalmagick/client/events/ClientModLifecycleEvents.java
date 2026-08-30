@@ -41,10 +41,8 @@ import com.verdantartifice.primalmagick.client.renderers.tile.WandChargerTER;
 import com.verdantartifice.primalmagick.client.renderers.tile.WindGeneratorTER;
 import com.verdantartifice.primalmagick.common.items.ItemsPM;
 import com.verdantartifice.primalmagick.common.items.entities.FlyingCarpetItem;
-import com.verdantartifice.primalmagick.common.items.misc.ArcanometerItem;
 import com.verdantartifice.primalmagick.common.menus.MenuTypesPM;
 import com.verdantartifice.primalmagick.common.tiles.BlockEntityTypesPM;
-import com.verdantartifice.primalmagick.common.util.RayTraceUtils;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
@@ -127,33 +125,6 @@ public class ClientModLifecycleEvents {
     private static void registerItemProperties(Consumer<Runnable> workConsumer) {
         // Register properties for items on the main thread in a thread-safe fashion
         workConsumer.accept(() -> {
-            ItemProperties.register(ItemsPM.ARCANOMETER.get(), ArcanometerItem.SCAN_STATE_PROPERTY, new ClampedItemPropertyFunction() {
-                private float scanState = 0;
-
-                @Override
-                public float unclampedCall(ItemStack stack, ClientLevel world, LivingEntity entity, int seed) {
-                    if (entity instanceof Player player) {
-                        // If the currently moused-over block/item has not yet been scanned, raise the antennae
-                        if (ArcanometerItem.isMouseOverScannable(RayTraceUtils.getMouseOver(world, player), world, player)) {
-                            this.incrementScanState();
-                        } else {
-                            this.decrementScanState();
-                        }
-                        return scanState;
-                    } else {
-                        return 0F;
-                    }
-                }
-                
-                private void incrementScanState() {
-                    this.scanState = Math.min(1.0F, this.scanState + 0.0625F);
-                }
-                
-                private void decrementScanState() {
-                    this.scanState = Math.max(0.0F, this.scanState - 0.0625F);
-                }
-            });
-            
             ItemProperties.register(ItemsPM.FLYING_CARPET.get(), FlyingCarpetItem.COLOR_PROPERTY, (ItemStack stack, ClientLevel world, LivingEntity entity, int seed) -> {
                 DyeColor color = null;
                 if (stack != null && stack.getItem() instanceof FlyingCarpetItem carpetItem) {

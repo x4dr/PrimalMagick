@@ -1,6 +1,5 @@
 package com.verdantartifice.primalmagick.common.items.wands;
 
-import com.verdantartifice.primalmagick.client.renderers.itemstack.ModularWandISTER;
 import com.verdantartifice.primalmagick.common.capabilities.ManaStorage;
 import com.verdantartifice.primalmagick.common.components.DataComponentsPM;
 import com.verdantartifice.primalmagick.common.enchantments.EnchantmentHelperPM;
@@ -13,7 +12,6 @@ import com.verdantartifice.primalmagick.common.wands.ManaManager;
 import com.verdantartifice.primalmagick.common.wands.WandCap;
 import com.verdantartifice.primalmagick.common.wands.WandCore;
 import com.verdantartifice.primalmagick.common.wands.WandGem;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
@@ -46,8 +44,6 @@ import java.util.stream.Stream;
  */
 public abstract class ModularWandItem extends AbstractWandItem implements IHasWandComponents {
     protected static final int BASE_CORE_REGEN_PER_TICK = 5;
-
-    private BlockEntityWithoutLevelRenderer customRenderer;
 
     public ModularWandItem(Properties properties) {
         super(properties.enchantable(36));
@@ -323,16 +319,4 @@ public abstract class ModularWandItem extends AbstractWandItem implements IHasWa
         }
     }
 
-    @Override
-    public Supplier<BlockEntityWithoutLevelRenderer> getCustomRendererSupplier() {
-        if (this.customRenderer == null) {
-            this.customRenderer = this.getCustomRendererSupplierUncached().get();
-        }
-        return () -> this.customRenderer;
-    }
-
-    @Override
-    public Supplier<BlockEntityWithoutLevelRenderer> getCustomRendererSupplierUncached() {
-        return ModularWandISTER::new;
-    }
 }

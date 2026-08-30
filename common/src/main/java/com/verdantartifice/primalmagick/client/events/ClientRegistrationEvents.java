@@ -8,32 +8,35 @@ import com.verdantartifice.primalmagick.client.fx.particles.ParticleTypesPM;
 import com.verdantartifice.primalmagick.client.fx.particles.PotionExplosionParticle;
 import com.verdantartifice.primalmagick.client.fx.particles.SpellBoltParticle;
 import com.verdantartifice.primalmagick.client.fx.particles.SpellBoltParticleGroup;
+import com.verdantartifice.primalmagick.client.renderers.itemstack.ArcanometerSpecialRenderer;
 import com.verdantartifice.primalmagick.client.renderers.itemstack.ForbiddenTridentSpecialRenderer;
 import com.verdantartifice.primalmagick.client.renderers.itemstack.HallowsteelShieldSpecialRenderer;
 import com.verdantartifice.primalmagick.client.renderers.itemstack.HallowsteelTridentSpecialRenderer;
 import com.verdantartifice.primalmagick.client.renderers.itemstack.HexiumShieldSpecialRenderer;
 import com.verdantartifice.primalmagick.client.renderers.itemstack.HexiumTridentSpecialRenderer;
+import com.verdantartifice.primalmagick.client.renderers.itemstack.ManaFontSpecialRenderer;
 import com.verdantartifice.primalmagick.client.renderers.itemstack.ManaInjectorSpecialRenderer;
+import com.verdantartifice.primalmagick.client.renderers.itemstack.ManaOrbSpecialRenderer;
+import com.verdantartifice.primalmagick.client.renderers.itemstack.ManaRelaySpecialRenderer;
+import com.verdantartifice.primalmagick.client.renderers.itemstack.ModularWandSpecialRenderer;
+import com.verdantartifice.primalmagick.client.renderers.itemstack.MundaneWandSpecialRenderer;
 import com.verdantartifice.primalmagick.client.renderers.itemstack.PixieHouseSpecialRenderer;
 import com.verdantartifice.primalmagick.client.renderers.itemstack.PrimaliteShieldSpecialRenderer;
 import com.verdantartifice.primalmagick.client.renderers.itemstack.PrimaliteTridentSpecialRenderer;
+import com.verdantartifice.primalmagick.client.renderers.itemstack.ScanStateItemProperty;
+import com.verdantartifice.primalmagick.client.renderers.itemstack.SpellcraftingAltarSpecialRenderer;
 import com.verdantartifice.primalmagick.client.renderers.itemstack.SpelltomeSpecialRenderer;
+import net.minecraft.client.renderer.item.properties.numeric.RangeSelectItemModelProperty;
 import com.verdantartifice.primalmagick.client.tooltips.ClientAffinityTooltipComponent;
 import com.verdantartifice.primalmagick.common.affinities.AffinityTooltipComponent;
 import com.verdantartifice.primalmagick.common.crafting.recipe_book.RecipeBookCategoriesPM;
-import com.verdantartifice.primalmagick.common.items.ItemsPM;
 import com.verdantartifice.primalmagick.common.util.ResourceUtils;
-import com.verdantartifice.primalmagick.common.wands.WandCap;
-import com.verdantartifice.primalmagick.common.wands.WandCore;
-import com.verdantartifice.primalmagick.common.wands.WandGem;
-import com.verdantartifice.primalmagick.platform.Services;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleGroup;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.Identifier;
@@ -86,37 +89,7 @@ public class ClientRegistrationEvents {
         ));
     }
     
-    /**
-     * Register special model resource locations that must be loaded even if not tied to a block state.
-     */
-    public static void onModelRegister(Consumer<ModelResourceLocation> modelConsumer) {
-        modelConsumer.accept(Services.MODEL_RESOURCE_LOCATIONS.createStandalone(ResourceUtils.loc("mundane_wand_core")));
-        for (WandCore core : WandCore.getAllWandCores()) {
-            modelConsumer.accept(Services.MODEL_RESOURCE_LOCATIONS.createStandalone(core.getWandModelResourceLocationNamespace()));
-            modelConsumer.accept(Services.MODEL_RESOURCE_LOCATIONS.createStandalone(core.getStaffModelResourceLocationNamespace()));
-        }
-        for (WandCap cap : WandCap.getAllWandCaps()) {
-            modelConsumer.accept(Services.MODEL_RESOURCE_LOCATIONS.createStandalone(cap.getWandModelResourceLocationNamespace()));
-            modelConsumer.accept(Services.MODEL_RESOURCE_LOCATIONS.createStandalone(cap.getStaffModelResourceLocationNamespace()));
-        }
-        for (WandGem gem : WandGem.getAllWandGems()) {
-            modelConsumer.accept(Services.MODEL_RESOURCE_LOCATIONS.createStandalone(gem.getModelResourceLocationNamespace()));
-        }
-        for (int index = 0; index <= 4; index++) {
-            modelConsumer.accept(Services.MODEL_RESOURCE_LOCATIONS.createStandalone(ResourceUtils.loc("arcanometer_" + index)));
-        }
-    }
-    
     public static void onClientReloadListenerRegister(Consumer<PreparableReloadListener> reloadListenerConsumer) {
-        reloadListenerConsumer.accept(ItemsPM.MANA_ORB_APPRENTICE.get().getCustomRendererSupplier().get());
-        reloadListenerConsumer.accept(ItemsPM.MANA_ORB_ADEPT.get().getCustomRendererSupplier().get());
-        reloadListenerConsumer.accept(ItemsPM.MANA_ORB_WIZARD.get().getCustomRendererSupplier().get());
-        reloadListenerConsumer.accept(ItemsPM.MANA_ORB_ARCHMAGE.get().getCustomRendererSupplier().get());
-        reloadListenerConsumer.accept(ItemsPM.SPELLCRAFTING_ALTAR.get().getCustomRendererSupplier().get());
-        reloadListenerConsumer.accept(ItemsPM.MANA_RELAY_BASIC.get().getCustomRendererSupplier().get());
-        reloadListenerConsumer.accept(ItemsPM.MANA_RELAY_ENCHANTED.get().getCustomRendererSupplier().get());
-        reloadListenerConsumer.accept(ItemsPM.MANA_RELAY_FORBIDDEN.get().getCustomRendererSupplier().get());
-        reloadListenerConsumer.accept(ItemsPM.MANA_RELAY_HEAVENLY.get().getCustomRendererSupplier().get());
         reloadListenerConsumer.accept(LexiconLoader.getOrCreateInstance());
         reloadListenerConsumer.accept(StyleGuideLoader.getOrCreateInstance());
     }
@@ -140,5 +113,16 @@ public class ClientRegistrationEvents {
         consumer.accept(ResourceUtils.loc("spelltome"), SpelltomeSpecialRenderer.Unbaked.MAP_CODEC);
         consumer.accept(ResourceUtils.loc("pixie_house"), PixieHouseSpecialRenderer.Unbaked.MAP_CODEC);
         consumer.accept(ResourceUtils.loc("mana_injector"), ManaInjectorSpecialRenderer.Unbaked.MAP_CODEC);
+        consumer.accept(ResourceUtils.loc("mana_relay"), ManaRelaySpecialRenderer.Unbaked.MAP_CODEC);
+        consumer.accept(ResourceUtils.loc("mana_font"), ManaFontSpecialRenderer.Unbaked.MAP_CODEC);
+        consumer.accept(ResourceUtils.loc("mana_orb"), ManaOrbSpecialRenderer.Unbaked.MAP_CODEC);
+        consumer.accept(ResourceUtils.loc("spellcrafting_altar"), SpellcraftingAltarSpecialRenderer.Unbaked.MAP_CODEC);
+        consumer.accept(ResourceUtils.loc("mundane_wand"), MundaneWandSpecialRenderer.Unbaked.MAP_CODEC);
+        consumer.accept(ResourceUtils.loc("modular_wand"), ModularWandSpecialRenderer.Unbaked.MAP_CODEC);
+        consumer.accept(ResourceUtils.loc("arcanometer"), ArcanometerSpecialRenderer.Unbaked.MAP_CODEC);
+    }
+
+    public static void onRegisterRangeSelectItemModelProperties(BiConsumer<Identifier, MapCodec<? extends RangeSelectItemModelProperty>> consumer) {
+        consumer.accept(ScanStateItemProperty.ID, ScanStateItemProperty.MAP_CODEC);
     }
 }

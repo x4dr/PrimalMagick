@@ -1,11 +1,9 @@
 package com.verdantartifice.primalmagick.common.items.wands;
 
-import com.verdantartifice.primalmagick.client.renderers.itemstack.ModularStaffISTER;
 import com.verdantartifice.primalmagick.common.wands.IStaff;
 import com.verdantartifice.primalmagick.common.wands.WandCap;
 import com.verdantartifice.primalmagick.common.wands.WandCore;
 import com.verdantartifice.primalmagick.common.wands.WandGem;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -17,7 +15,6 @@ import net.minecraft.world.item.component.Tool;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 /**
  * Item definition for a modular staff.  Modular staves are made up of cores, caps, and gems, and their
@@ -26,7 +23,6 @@ import java.util.function.Supplier;
  * @author Daedalus4096
  */
 public abstract class ModularStaffItem extends ModularWandItem implements IStaff {
-    private BlockEntityWithoutLevelRenderer customRenderer;
 
     public ModularStaffItem(Item.Properties properties) {
         super(properties.enchantable(36));
@@ -62,16 +58,4 @@ public abstract class ModularStaffItem extends ModularWandItem implements IStaff
         return (core == null) ? 0 : (2 * core.getSpellSlots());
     }
 
-    @Override
-    public Supplier<BlockEntityWithoutLevelRenderer> getCustomRendererSupplier() {
-        if (this.customRenderer == null) {
-            this.customRenderer = this.getCustomRendererSupplierUncached().get();
-        }
-        return () -> this.customRenderer;
-    }
-
-    @Override
-    public Supplier<BlockEntityWithoutLevelRenderer> getCustomRendererSupplierUncached() {
-        return ModularStaffISTER::new;
-    }
 }
